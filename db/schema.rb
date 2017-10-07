@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171006101950) do
+ActiveRecord::Schema.define(version: 20171007110223) do
+
+  create_table "books", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string   "code"
@@ -21,5 +27,15 @@ ActiveRecord::Schema.define(version: 20171006101950) do
     t.datetime "updated_at",        null: false
     t.integer  "parent_id"
   end
+
+  create_table "listings", force: :cascade do |t|
+    t.integer  "book_id"
+    t.integer  "category_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "listings", ["book_id"], name: "index_listings_on_book_id"
+  add_index "listings", ["category_id"], name: "index_listings_on_category_id"
 
 end
