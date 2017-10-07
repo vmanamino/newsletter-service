@@ -2,6 +2,7 @@ class Subscriber < ActiveRecord::Base
     validates :email, presence: true
     has_many :interests
     has_many :categories, through: :interests
+    has_one :newsletter
     
     def interests
         Interest.where(subscriber_id: id)
