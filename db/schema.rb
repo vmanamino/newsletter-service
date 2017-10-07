@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171007110223) do
+ActiveRecord::Schema.define(version: 20171007141422) do
 
   create_table "books", force: :cascade do |t|
     t.string   "title"
@@ -28,6 +28,16 @@ ActiveRecord::Schema.define(version: 20171007110223) do
     t.integer  "parent_id"
   end
 
+  create_table "interests", force: :cascade do |t|
+    t.integer  "subscriber_id"
+    t.integer  "category_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "interests", ["category_id"], name: "index_interests_on_category_id"
+  add_index "interests", ["subscriber_id"], name: "index_interests_on_subscriber_id"
+
   create_table "listings", force: :cascade do |t|
     t.integer  "book_id"
     t.integer  "category_id"
@@ -37,5 +47,11 @@ ActiveRecord::Schema.define(version: 20171007110223) do
 
   add_index "listings", ["book_id"], name: "index_listings_on_book_id"
   add_index "listings", ["category_id"], name: "index_listings_on_category_id"
+
+  create_table "subscribers", force: :cascade do |t|
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 end
