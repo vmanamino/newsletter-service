@@ -1,3 +1,3 @@
 class NewsletterSerializer < ActiveModel::Serializer
-  attributes :recipient
+  attributes :recipient, :notifications
 end
