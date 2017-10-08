@@ -17,7 +17,7 @@ class Book < ActiveRecord::Base
     def create_listings
         self.categoryCodes.each do |code|
             c = Category.find_by code: code
-            l = Listing.create("book"=>self, "category"=>c) 
+            Listing.create("book"=>self, "category"=>c) 
         end
     end
     
