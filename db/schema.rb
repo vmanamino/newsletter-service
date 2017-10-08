@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171007234120) do
+ActiveRecord::Schema.define(version: 20171007235629) do
+
+  create_table "book_notifications", force: :cascade do |t|
+    t.string   "book"
+    t.string   "catagoryPaths"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "newsletter_id"
+  end
+
+  add_index "book_notifications", ["newsletter_id"], name: "index_book_notifications_on_newsletter_id"
 
   create_table "books", force: :cascade do |t|
     t.string   "title"
