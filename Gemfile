@@ -47,3 +47,4 @@ end
 
 gem 'acts_as_tree'
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'faker'
