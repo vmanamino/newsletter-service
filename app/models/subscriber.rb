@@ -31,31 +31,35 @@ class Subscriber < ActiveRecord::Base
             c = Category.find_by code: code
             # puts "cat code #{c}"
             # puts "any descendants #{c.descendants}"
-            # lineage = c.ancestors.size
-            if c.descendants.length != 0
-                # length = descendant_objs.length
-                c.descendants.each do |cat|
-                    puts "cat id #{cat.id}"
-                    listing = Listing.find_by category_id: cat.id
-                    puts "the listing #{listing}"
-                    book = Book.find_by id: listing.book_id
-                    book_cat_ids = Listing.where(book_id: book_id).map(&:category_id)
-                    bn = BookNotification.new()
-                    puts book
-                    cat_paths = []
-                    book_cat_ids.each do |cat_id|
-                        ancestors = cat.ancestors.map(&:title)
-                        cat_path = ancestors.drop(lineage)
-                        cat_paths.push(cat_path)
-                    end
-                    bn.categoryPaths = cat_paths
-                    bn.newsletter = n
-                    bn.save
-                    bn_objs.push(BookNotificationSerializer.new(bn).to_json)
-                end
-            end
+            lineage = c.ancestors.size
+            puts "lineage #{lineage}"
+            if lineage != 0
+                puts " some work to do here #{lineage}"
+        #     if c.descendants.length != 0
+        #         # length = descendant_objs.length
+        #         c.descendants.each do |cat|
+        #             puts "cat id #{cat.id}"
+        #             listing = Listing.find_by category_id: cat.id
+        #             puts "the listing #{listing}"
+        #             book = Book.find_by id: listing.book_id
+        #             book_cat_ids = Listing.where(book_id: book).map(&:category_id)
+        #             bn = BookNotification.new()
+        #             puts book
+        #             cat_paths = []
+        #             book_cat_ids.each do |cat_id|
+        #                 ancestors = cat.ancestors.map(&:title)
+        #                 cat_path = ancestors.drop(lineage)
+        #                 cat_paths.push(cat_path)
+        #             end
+        #             bn.categoryPaths = cat_paths
+        #             bn.newsletter = n
+        #             bn.save
+        #             bn_objs.push(BookNotificationSerializer.new(bn).to_json)
+        #         end
+        #     end
+        # end
+        # n.notifications = bn_objs
+        # n.save
         end
-        n.notifications = bn_objs
-        n.save
     end
 end
