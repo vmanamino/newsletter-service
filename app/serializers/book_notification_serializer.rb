@@ -1,3 +1,3 @@
 class BookNotificationSerializer < ActiveModel::Serializer
-  attributes :book, :catagoryPaths
+  attributes :book, :categoryPaths
 end

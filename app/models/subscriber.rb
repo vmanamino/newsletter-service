@@ -15,10 +15,16 @@ class Subscriber < ActiveRecord::Base
         Category.where(id: interests.pluck(:category_id))
     end
     
+    private
+    
     def create_interests
        self.categoryCodes.each do |code|
             c = Category.find_by code: code
             l = Interest.create("subscriber"=>self, "category"=>c) 
         end 
     end
+    
+    # def create_newsletter_with_notifications
+        
+    # end
 end

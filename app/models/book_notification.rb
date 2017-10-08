@@ -1,4 +1,4 @@
 class BookNotification < ActiveRecord::Base
     belongs_to :newsletter
-    serialize :categoryPaths
+    serialize :categoryPaths, Array
 end
