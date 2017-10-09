@@ -56,13 +56,16 @@ class Subscriber < ActiveRecord::Base
                 end
                 if c.descendants.size != 0
                     books_to_note = []
+                    puts "descendants of SOFT #{c.descendants.map(&:title)}"
                     c.descendants.map(&:id).each do |cat_id|
                         puts "dec cat id #{cat_id}"
                         # if Listing.find_by category_id: cat_id
                         book_ids = Listing.where(category_id: cat_id).map(&:book_id)
+                        puts " book ids #{book_ids}"
                         books_to_note.push(*book_ids)
                     end
                     books_to_note.uniq! # in case books listed twice in the descendants
+                    puts "books to note #{books_to_note}"
                     books_to_note.each do |book_id|
                         bn = BookNotification.new()
                         book = Book.find(book_id)
@@ -76,6 +79,7 @@ class Subscriber < ActiveRecord::Base
                             path = []
                             cat = Category.find(id)
                             ancestors = cat.ancestors
+                            ancestors.reverse!
                                 if ancestors.length != 0 or ancestors.length != 1
                                     subscriber_interests = ancestors.drop(lineage)
                                     subscriber_interests.map(&:title).each do |cat_segment|
