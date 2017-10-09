@@ -29,12 +29,37 @@ class Subscriber < ActiveRecord::Base
         bn_objs = [] 
         self.categoryCodes.each do |code|
             c = Category.find_by code: code
-            # puts "cat code #{c}"
-            # puts "any descendants #{c.descendants}"
             lineage = c.ancestors.size
             puts "lineage #{lineage}"
-            if lineage != 0
-                puts " some work to do here #{lineage}"
+            if Listing.find_by category_id: c.id
+                listing = Listing.find_by category_id: c.id
+                puts " listing #{listing.category_id}"
+                puts "code #{c.code}"
+                if Book.find_by id: listing.book_id
+                    book = Book.find_by id: listing.book_id
+                    puts " book #{book.title}"
+                    book_cat_ids = Listing.where(book_id: book).map(&:category_id)
+                    puts "book categories #{book_cat_ids}"
+                end
+            end
+            if c.descendants.size != 0
+                puts "my desc #{c.descendants.size}"
+                descendant_objs = c.descendants
+                puts "my descc objs #{descendant_objs.map(&:title)}"
+                c.descendants.each do |cat|
+                    puts "cat id #{cat.id}"
+                    if Listing.find_by category_id: cat.id
+                        listing = Listing.find_by category_id: cat.id
+                        puts "listing for desc #{listing.category_id}"
+                        if Book.find_by id: listing.book_id
+                            book = Book.find_by id: listing.book_id
+                            puts "book #{book.title}"
+                            book_cat_ids = Listing.where(book_id: book).map(&:category_id)
+                            puts "book categories #{book_cat_ids}"
+                        end
+                    end
+                end
+            end
         #     if c.descendants.length != 0
         #         # length = descendant_objs.length
         #         c.descendants.each do |cat|
