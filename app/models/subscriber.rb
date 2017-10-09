@@ -26,20 +26,37 @@ class Subscriber < ActiveRecord::Base
     
     def create_newsletter_with_notifications
         n = Newsletter.create("subscriber"=> self)
-        bn_objs = [] 
+        bn_objs = []
         self.categoryCodes.each do |code|
             c = Category.find_by code: code
             lineage = c.ancestors.size
             puts "lineage #{lineage}"
+            # listings exist for given category
+            # creates a separate notification for each book that is cross listed
             if Listing.find_by category_id: c.id
-                listing = Listing.find_by category_id: c.id
-                puts " listing #{listing.category_id}"
+                book_ids = Listing.where(category_id: c.id).map(&:book_id)
+                book_ids.uniq!
+                puts "book ids #{book_ids}"
                 puts "code #{c.code}"
-                if Book.find_by id: listing.book_id
-                    book = Book.find_by id: listing.book_id
-                    puts " book #{book.title}"
-                    book_cat_ids = Listing.where(book_id: book).map(&:category_id)
-                    puts "book categories #{book_cat_ids}"
+                puts " code id #{c.id}"
+                book_ids.each do |book_id|
+                    bn = BookNotification.new()
+                    book = Book.find(book_id)
+                    puts "book #{book.title}"
+                    bn.book = book.title
+                    cat_ids = Listing.where(book_id: book_id).map(&:category_id)
+                    cat_ids.uniq!
+                    cat_paths = []
+                    cat_ids.each do |cat_id|
+                        path = []
+                        cat = Category.find(cat_id)
+                        path.push(cat.title)
+                        cat_paths.push(path)
+                    end
+                    bn.categoryPaths = cat_paths
+                    bn.newsletter = n
+                    bn.save
+                    bn_objs.push(BookNotificationSerializer.new(bn).to_json)
                 end
             end
             if c.descendants.size != 0
@@ -56,6 +73,14 @@ class Subscriber < ActiveRecord::Base
                             puts "book #{book.title}"
                             book_cat_ids = Listing.where(book_id: book).map(&:category_id)
                             puts "book categories #{book_cat_ids}"
+                            bn = BookNotification.new()
+                            cat_paths = []
+                            # book_cat_ids.each do |cat_id|
+                            #     ancestors = cat.ancestors.map(&:title)
+                            #     cat_path = ancestors.drop(lineage)
+                            #     cat_paths.push(cat_path)
+                            # end
+                            # puts "cat paths #{cat_paths}"
                         end
                     end
                 end
@@ -83,8 +108,8 @@ class Subscriber < ActiveRecord::Base
         #         end
         #     end
         # end
-        # n.notifications = bn_objs
-        # n.save
+        n.notifications = bn_objs
+        n.save
         end
     end
 end
