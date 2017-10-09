@@ -34,7 +34,7 @@ class Subscriber < ActiveRecord::Base
             puts "lineage #{lineage}"
             # if listings exist for top level categories
             # creates a separate notification for each book that is cross listed
-            # example is subscriber codes ab ef book3 ab ef, book 3 will appear twice
+            # example is subscriber codes ab ef book3 with codes ab ef, book 3 will appear twice
             # in separate notifications
             if Listing.find_by category_id: c.id
                 # book_ids = Listing.where(category_id: c.id).map(&:book_id)
