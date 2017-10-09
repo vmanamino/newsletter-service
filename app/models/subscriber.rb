@@ -27,11 +27,12 @@ class Subscriber < ActiveRecord::Base
     def create_newsletter_with_notifications
         n = Newsletter.create("subscriber"=> self)
         bn_objs = []
+        books_to_note = []
         self.categoryCodes.each do |code|
             c = Category.find_by code: code
             lineage = c.ancestors.size
             puts "lineage #{lineage}"
-            # listings exist for given category
+            # if listings exist for top level categories
             # creates a separate notification for each book that is cross listed
             # example is subscriber codes ab ef book3 ab ef, book 3 will appear twice
             # in separate notifications
@@ -64,7 +65,7 @@ class Subscriber < ActiveRecord::Base
                 if c.descendants.size != 0
                     c.descendants.map(&:id).each do |cat_id|
                       puts "dec cat id #{cat_id}"
-                      if Listing.find_by category_id: cat_id
+                        if Listing.find_by category_id: cat_id
                             book_ids = Listing.where(category_id: cat_id).map(&:book_id)
                             book_ids.uniq!
                             puts "book ids #{book_ids}"
@@ -78,14 +79,14 @@ class Subscriber < ActiveRecord::Base
                                 cat_ids = Listing.where(book_id: book_id).map(&:category_id)
                                 cat_ids.uniq!
                                 cat_paths = []
-                                cat_ids.each do |cat_id|
+                                cat_ids.each do |id|
                                     path = []
-                                    cat = Category.find(cat_id)
+                                    cat = Category.find(id)
                                     ancestors = cat.ancestors
                                         if ancestors.length != 0 or ancestors.length != 1
                                             subscriber_interests = ancestors.drop(lineage)
-                                            subscriber_interests.map(&:title).each do |cat|
-                                                path.push(cat) 
+                                            subscriber_interests.map(&:title).each do |cat_segment|
+                                                path.push(cat_segment) 
                                             end
                                         end
                                     path.push(cat.title)
@@ -98,6 +99,52 @@ class Subscriber < ActiveRecord::Base
                             end
                         end
                     end
+                end
+            # for book belonging to descendants, no top level topics
+            else # c.descendants.size != 0
+                puts " category #{c.title}"
+                puts " descendants #{c.descendants.map(&:title)}"
+                c.descendants.map(&:id).each do |cat_id|
+                    puts "dec cat id #{cat_id}"
+                    if Listing.find_by category_id: cat_id
+                        book_ids = Listing.where(category_id: cat_id).map(&:book_id)
+                        books_to_note.push(*book_ids)
+                        puts "book ids #{book_ids}"
+                        puts "code #{c.code}"
+                        puts " code id #{c.id}"
+                    end
+                end
+                books_to_note.uniq!
+                puts " books to note #{books_to_note}"
+                books_to_note.each do |book_id|
+                    bn = BookNotification.new()
+                    book = Book.find(book_id)
+                    puts "book #{book.title}"
+                    bn.book = book.title
+                    within_scope = c.descendants.map(&:id)
+                    cat_ids = Listing.where(book_id: book_id).map(&:category_id)
+                    cat_ids.uniq! # just in case
+                    cat_ids_in_scope = cat_ids & within_scope
+                    cat_paths = []
+                    cat_ids_in_scope.each do |id|
+                        path = []
+                        cat = Category.find(id)
+                        puts "category for path #{cat.title}"
+                        ancestors = cat.ancestors
+                        ancestors.reverse!
+                        if ancestors.length != 0 or ancestors.length != 1
+                            subscriber_interests = ancestors.drop(lineage)
+                            subscriber_interests.map(&:title).each do |cat_segment|
+                                path.push(cat_segment) 
+                            end
+                        end
+                        path.push(cat.title)
+                        cat_paths.push(path)
+                    end
+                    bn.categoryPaths = cat_paths
+                    bn.newsletter = n
+                    bn.save
+                    bn_objs.push(BookNotificationSerializer.new(bn).to_json)
                 end
             end
             # if c.descendants.size != 0
