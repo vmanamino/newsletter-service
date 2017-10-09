@@ -31,7 +31,7 @@ class Subscriber < ActiveRecord::Base
         self.categoryCodes.each do |code|
             c = Category.find_by code: code
             lineage = c.ancestors.size
-            puts "lineage #{lineage}"
+            # puts "lineage #{lineage}"
             # if listings exist for top level categories
             # creates a separate notification for each book that is cross listed
             # example is subscriber codes ab ef book3 with codes ab ef, book 3 will appear twice
@@ -56,12 +56,12 @@ class Subscriber < ActiveRecord::Base
                 end
                 if c.descendants.size != 0
                     books_to_note = []
-                    puts "descendants of SOFT #{c.descendants.map(&:title)}"
+                    # puts "descendants of SOFT #{c.descendants.map(&:title)}"
                     c.descendants.map(&:id).each do |cat_id|
-                        puts "dec cat id #{cat_id}"
+                        # puts "dec cat id #{cat_id}"
                         # if Listing.find_by category_id: cat_id
                         book_ids = Listing.where(category_id: cat_id).map(&:book_id)
-                        puts " book ids #{book_ids}"
+                        # puts " book ids #{book_ids}"
                         books_to_note.push(*book_ids)
                     end
                     books_to_note.uniq! # in case books listed twice in the descendants
