@@ -14,6 +14,8 @@ class Book < ActiveRecord::Base
         Category.where(id: listings.pluck(:category_id))
     end
     
+    private
+    
     def create_listings
         self.categoryCodes.each do |code|
             c = Category.find_by code: code
