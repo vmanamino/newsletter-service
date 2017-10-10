@@ -17,6 +17,8 @@ Using Acts As Tree to create the relationships and hiearchies for the Categories
 2. Install Rails
 
 3. Run the rails server 
+ 
+
     `rails s`
 
 4. 
