@@ -10,10 +10,23 @@ Please look at Gemfile for necessary gems
 Using Acts As Tree to create the relationships and hiearchies for the Categories.
 
 
-## To use the API
+## To test the API
 
-`After cloning the repository in your local environment, and installing Rails,
-Switch to routes branch`
+1. Clone the repository into your local environment.
+
+2. Install Rails
+
+3. Run the rails server 
+    `rails s`
+
+4. 
+
+
+
+
+
+
+
 
 
 
