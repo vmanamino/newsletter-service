@@ -56,7 +56,7 @@ Response
 `curl -d "subscriber[email]=email addresss" -d "subscriber[categoryCodes][]=PALL" http://localhost:8080/api/subscribers`
 
 
-5. At this point you will have created all the data necessary for getting a newsletter
+5. At this point you will have created all the data necessary for obtaining newsletters
 
 
 `curl http://localhost:8080/api/newsletters`
