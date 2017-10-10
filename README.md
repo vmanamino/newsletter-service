@@ -44,9 +44,7 @@ Using Acts As Tree to create the relationships and hiearchies for the Categories
 
 
 `curl -d "book[title]=About Palliative Care" -d "book[categoryCodes][]=PALL" http://localhost:8080/api/books`
-`curl -d "subscriber[email]=email addresss" -d "subscriber[categoryCodes][]=PALL" -d "subscriber[categoryCodes][]=SCI"`
-Response
-`{"id":98,"email":"email addresss","created_at":"2017-10-10T13:01:51.284Z","updated_at":"2017-10-10T13:01:51.284Z","categoryCodes":["PALL","SCI"]}`
+
 
 
 
@@ -54,6 +52,14 @@ Response
 
  
 `curl -d "subscriber[email]=email addresss" -d "subscriber[categoryCodes][]=PALL" http://localhost:8080/api/subscribers`
+
+
+OR
+
+
+`curl -d "subscriber[email]=email addresss" -d "subscriber[categoryCodes][]=PALL" -d "subscriber[categoryCodes][]=SCI"`
+Response
+`{"id":98,"email":"email addresss","created_at":"2017-10-10T13:01:51.284Z","updated_at":"2017-10-10T13:01:51.284Z","categoryCodes":["PALL","SCI"]}`
 
 
 5. At this point you will have created all the data necessary for obtaining newsletters
