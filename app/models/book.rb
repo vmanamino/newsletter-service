@@ -1,6 +1,6 @@
 class Book < ActiveRecord::Base
     validates :title, presence: true
-    serialize :categoryCodes
+    serialize :categoryCodes, Array
     has_many :listings
     has_many :categories, through: :listings
     
@@ -17,7 +17,7 @@ class Book < ActiveRecord::Base
     private
     
     def create_listings
-        self.categoryCodes.each do |code|
+        self.categoryCodes.each do |code| # problem with string in curl requests
             c = Category.find_by code: code
             Listing.create("book"=>self, "category"=>c) 
         end

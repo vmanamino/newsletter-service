@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :newsletters, only: [:index]
     resources :categories, only: [:create]
+    resources :books, only: [:create]
   end
   
   # The priority is based upon order of creation: first created -> highest priority.
