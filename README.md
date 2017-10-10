@@ -12,8 +12,10 @@ Using Acts As Tree to create the relationships and hiearchies for the Categories
 
 ## To use the API
 
-`After cloning the repository in your local environment, and installing Rails `
-`Switch to routes branch`
+`After cloning the repository in your local environment, and installing Rails,
+Switch to routes branch`
+
+
 
 
 
