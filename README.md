@@ -20,9 +20,9 @@ Using Acts As Tree to create the relationships and hiearchies for the Categories
 
 4. Migrate the database using the following command
 
-`rake db:migrate`
+    `rake db:migrate`
 
-4. Run the rails server 
+5. Run the rails server 
  
 
     `rails s`
@@ -31,7 +31,7 @@ Using Acts As Tree to create the relationships and hiearchies for the Categories
     
     `Rails 4.2.6 application starting in development on http://0.0.0:8080`
 
-5. Open a second command line or console, and go to the app "newsletter-service"
+6. Open a second command line or console, and go to the app "newsletter-service"
 
 ## How to use the API Service
 
