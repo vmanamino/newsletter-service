@@ -18,6 +18,10 @@ Using Acts As Tree to create the relationships and hiearchies for the Categories
 
 3. Go to the app directory newsletter-service in your command line or console
 
+4. Migrate the database using the following command
+
+`rake db:migrate`
+
 4. Run the rails server 
  
 
