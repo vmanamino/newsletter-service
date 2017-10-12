@@ -24,7 +24,7 @@
         `curl -d "subscriber[email]=email addresss" -d "subscriber[categoryCodes][]=PALL"  https://newsletter-service-amin.herokuapp.com/api/subscribers`
 
 
-OR
+        OR
 
 
         `curl -d "subscriber[email]=email addresss" -d "subscriber[categoryCodes][]=PALL" -d "subscriber[categoryCodes][]=*other code for category already created" https://newsletter-service-amin.herokuapp.com/api/subscribers`
