@@ -1,29 +1,3 @@
-
-
-
-## First Steps
-
-1. Install Rails version 4.2.6
-
-2. Clone the repository into your local environment.
-
-3. Go to the app directory newsletter-service in your command line or console
-
-4. Migrate the database using the following command
-
-    `rake db:migrate`
-
-5. Run the rails server 
- 
-
-    `rails s`
-    
-    you should see the following message
-    
-    `Rails 4.2.6 application starting in development on http://0.0.0:8080`
-
-6. Open a second command line or console, and go to the app "newsletter-service"
-
 ## How to use the API Service
 
 1. While the Rails server is running, go to the second command line or console with the path pointing to your app "newsletter-service"
