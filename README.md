@@ -33,7 +33,7 @@
 4. At this point you will have created all the data necessary for obtaining newsletters
 
 
-        `curl https://newsletter-service-amin.herokuapp.com/api/subscribers/newsletters`
+        `curl https://newsletter-service-amin.herokuapp.com/api/newsletters`
 
 
 
